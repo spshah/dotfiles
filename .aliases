@@ -1,0 +1,84 @@
+# Aliases File.
+
+alias so 'source'
+alias pwd  'echo $cwd'
+alias grep 'grep -i'
+
+alias .   'echo $cwd'
+alias ..  'set dot=$cwd;cd ..'
+
+alias svndiff 'svn diff \!* | grep "^[+-]"'
+alias tkdiff  '/usr/bin/tclsh8.5 /software/utils/tkdiff/v5.0.0/tkdiff'
+alias exceed "/opt/Exceed_onDemand_Client_8/eodxc"
+alias acroread '/software/utils/acroread/9.4.2/Adobe/Reader9/bin/acroread'
+#alias tkdiff  '/software/utils/tkdiff/v4.1.3-unix/tkdiff'
+alias valgrind '/software/utils/valgrind/v3.17.0_64/x86_64-redhat-gnu_rhel7/bin/valgrind --leak-check=yes --track-fds=yes'
+
+alias tmux "$HOME/setup/bin/tmux -2"
+alias nvim "$HOME/setup/bin/nvim"
+alias git "$HOME/setup/bin/git"
+
+alias findinsrc 'find . \( -name \*.cxx -o -name \*.hxx -o -name \*.tcl -o -name \*.h -o -name \*.c -o -name \*.cpp -o -name \*.hpp -o -name \*.l -o -name \*.y -o -name Makefil\* \) -exec grep \!* {} /dev/null \;'
+alias fz 'find . \( -name \*.py -o -name \*.html -o -name \*.pt -o -name \*.js -o -name \*.zcml \) -exec grep \!* {} /dev/null \;'
+alias findinpython 'find . -name \*.py -exec grep \!* {} /dev/null \;'
+alias findinperl 'find . -name \*.pl -exec grep \!* {} /dev/null \;'
+alias findinall 'find . -exec grep \!* {} /dev/null \;'
+alias findfileindir 'find \!:1 -name \!:2 -print'
+alias findindir 'find \!:1 -exec grep \!:2 {} /dev/null \;'
+
+alias removeswapfiles "find . | grep .swp | xargs rm"
+alias setupmc2 "source /home/shashi/.mc2Setup.csh"
+alias cleanmc2 "make all CLEAN=1" 
+
+alias makecd "make mc2 | &tee mc2_cd_build.log" 
+alias makecdfast "make -j4 mc2 | &tee mc2_cd_build.log" 
+alias makeeu "make mc2 MODE=eu | &tee mc2_eu_build.log" 
+alias makeeufast "make mc2 -j4 MODE=eu | &tee mc2_eu_build.log" 
+alias makemc2 "make mc2 && make mc2 MODE=eu | &tee mc2_build.log" 
+alias makemc2fast "make mc2 -j4 && make mc2 -j4 MODE=eu | &tee mc2_build.log" 
+alias mc2 '$MC2_INSTALL_DIR/bin/mc2'
+alias imc2 '$MC2_INSTALL_DIR/bin/imc2'
+alias mc2-eu '$MC2_INSTALL_DIR/bin/mc2-eu'
+alias gdsv '/software/Release/MC2/Latest/bin/GDSViewer -file'
+
+alias copyscript "cp ~pankajk/Projects/MC2/mc2source/Scripts/wx.mk ./Scripts/ && cp ~pankajk/Projects/MC2/mc2source/Scripts/site ./Scripts/ && cp ~pankajk/Projects/MC2/mc2source/Scripts/library.mk ./Scripts/ && cp ~pankajk/Projects/MC2/mc2source/Scripts/machine.mk ./Scripts/"
+
+alias setlicense "setenv LM_LICENSE_FILE /home/mc2/license.dat:5280@volcano:27001@licserv"
+alias setlicense1 "setenv LM_LICENSE_FILE 27005@titan:27006@neo"
+
+alias copybinary " removebinary && cp Main/bin/Linux-3.10-64-gcc-debug/mc2 $MC2_INSTALL_DIR/aux/pygui/Linux-64/mc2_exe && cp Main/bin/Linux-3.10-64-gcc-debug-eu/mc2-eu $MC2_INSTALL_DIR/aux/pygui/Linux-64/mc2-eu_exe "
+
+alias removebinary "rm $MC2_INSTALL_DIR/aux/pygui/Linux-64/mc2_exe && rm $MC2_INSTALL_DIR/aux/pygui/Linux-64/mc2-eu_exe"
+
+alias removelicense "unsetenv LM_LICENSE_FILE && rm -r ~/.flexlmrc "
+
+alias setMDL "setenv MDL_INCLUDE_PATH $MC_HOME/demoram0/include:$MC_HOME/demoram0/MDL:$MC2_INSTALL_DIR/mdllib/v1.0/:$MC2_INSTALL_DIR/aux/bist"
+alias getregression "svn co http://192.168.5.136/mc2/MC2/Regression"
+alias getsource "svn co http://192.168.5.136/mc2/MC2/mc2Source"
+
+
+#alias ftpArm 'lftp 192.168.5.181 -u arm,Y[X$(7n%5wv!' 
+#alias ftpSankalp "lftp 14.98.6.229 -u indranil,1ndr@n1l@2016" 
+#alias ftpUMC "lftp ftp1.umc.com -u interra,Inter@sdg03"
+#alias ftpTSMC "lftp ftp02.tsmc.com -u 101851-02,2019IndiaA_5"
+#alias gmc2 '/usr/bin/gdb --args ~/Projects/MC2/mc2source/Main/bin/Linux-2.6-64-gcc-debug/mc2'
+
+#alias lmhostid '/software/flexlm/v11.14.0.1/x64_lsb/lmhostid'
+#alias lmgrd '/software/flexlm/v11.14.0.1/x64_lsb/lmgrd'
+#alias lmstat '/software/flexlm/v11.14.0.1/x64_lsb/lmstat'
+#alias python3  '/export/home/software/python/v3.8/x86_64_RHEL7/bin/python3.8'
+
+
+#alias gcc3 "source ~ae/.gcc3.4.4.Linux-ENT6-64"
+#alias mvvh "setenv MVV_HOME ~/Projects/Objects/SVN/MVV/linux/"
+#alias ftpFT 'lftp ftp.interrasystems.com -u accto04,u62BV%#8'
+ 
+
+#alias src 'cd /home/pankajk/Projects/MC2/mc2source'
+#alias regr 'cd /home/pankajk/Projects/MC2/Regression'
+#alias v '/software/utils/gvim/x86_64-redhat-gnu_rhel6/bin/gvim'
+#alias clewn '/home/sushantd/utils/clewn/bin/clewn -gc /usr/bin/gdb -vc /software/utils/gvim/x86_64-redhat-gnu_rhel6/bin/gvim'
+#
+
+
+alias checklicense software/flexlm/v11.4.1/amd64_re3/lmstat -a -c 27001@licserv

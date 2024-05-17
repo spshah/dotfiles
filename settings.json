@@ -1,0 +1,38 @@
+{
+    "files.autoSave": "onFocusChange",
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "JetBrains Mono NL,Fira Code SemiBold, Consolas, 'Courier New', monospace",
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.tabSize": 4,
+    "html.format.enable": false,
+    "htmlhint.enable": true,
+    "workbench.colorTheme": "JetBrains New UI Dark Theme",
+    "workbench.iconTheme": "vs-minimal",
+    "files.associations": {
+        "*.pf": "MDL"
+    },
+    "[python]": {
+        "editor.formatOnType": true
+    },
+    "editor.minimap.enabled": true,
+    "editor.tabCompletion": "on",
+    "svn.multipleFolders.ignore": [
+        "${workspaceFolder}/lib",
+        "${workspaceFolder}/bin",
+        "${workspaceFolder}/obj",
+        "**/.git",
+        "**/.hg",
+        "**/vendor",
+        "**/node_modules"
+    ],
+    "debug.allowBreakpointsEverywhere": true,
+    "editor.fontSize": 13,
+    "window.zoomLevel": 1,
+    "explorer.confirmDelete": false,
+  "git.allowForcePush": true,
+  "git.branchProtection": ["master", "main"],
+  "git.enableCommitSigning": true,
+  "git.showPushSuccessNotification": true,
+  "git.suggestSmartCommit": false,
+  "editor.semanticHighlighting.enabled": true,
+  }

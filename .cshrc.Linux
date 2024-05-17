@@ -1,0 +1,118 @@
+
+[ ! -t 0 ] && return
+
+stty erase "^?"
+umask 022
+set nosunview
+set prompt = "`/usr/bin/whoami`@`/bin/hostname`[\!] "
+set host=`/bin/hostname`
+setenv OS `uname -s`
+setenv OS_VER `uname -r`
+setenv MACHINE `uname -n`
+
+
+
+######## This portion sets the prompt ####### 
+echo ""
+
+echo "        '''     ''''       '''    "
+echo "       '   '    '   '     '   '   "
+echo "       '        '    '    '       "
+echo "         '      '   '       '     "
+echo "           '    ''''          '   "
+echo "       '   '    '         '   '   "
+echo "        '''     '          '''    "
+echo "Welcome To $MACHINE - $OS - $OS_VER"
+echo "          Setting Environment Variables ..." 
+source /home/shashi/.setENV.csh
+echo "          Setting Variables for MC2 ..." 
+source /home/shashi/.mc2Setup.csh
+echo "          Setting Aliases ..." 
+source /home/shashi/.aliases
+
+
+set USE_HSPICE = 0
+set USE_HSIM = 0
+set USE_SIMVISION = 0
+setenv TCLLIBPATH ~mc2/Utils/build/tcllib-1.8/lib/
+#############Setting for modelsim################
+#if ($USE_MODELSIM == 1) then
+#    echo "       Modelsim settings are ON"
+#    set path = ( /software/mentor/modeltech/6.3SE/linux/linux/ $path)
+#    setenv LM_LICENSE_FILE  1717@everest:$LM_LICENSE_FILE
+#endif
+#
+##############HSPICE setting#######################
+if ($USE_HSPICE == 1) then
+    echo "       HSPICE settings are ON"
+    setenv LM_LICENSE_FILE  27001@licserv:$LM_LICENSE_FILE
+    setenv HSPICE_PATH '/software/synopsys/HSPICE_2008.09/hspice/bin/hspice -i'
+    alias hspice '/software/synopsys/HSPICE_2008.09/hspice/bin/hspice -i'
+    setenv META_QUEUE 1
+endif
+
+###############HSIM setting#######################
+if ($USE_HSIM == 1) then
+    echo "       HSIM settings are ON"
+    setenv LM_LICENSE_FILE  27000@robocop:$LM_LICENSE_FILE
+    alias hsim '/software/synopsys/HSIM_vC-2009.06/hsimplus/bin/hsim'
+    setenv HSIM_PATH /software/synopsys/HSIM_vC-2009.06/hsimplus/bin/hsim
+    setenv PATH "/software/synopsys/HSIM_vC-2009.06/hsimplus/bin:$PATH"
+
+endif
+
+###############SPECTRE setting#######################
+#if ($USE_SPECTRE == 1) then
+#    echo "       SPECTRE settings are ON"
+#    alias spectre '/software/cadence/IC5141/linux/tools.lnx86/mdl/bin/spectremdl' 
+#    setenv SPECTRE_PATH '/software/cadence/MMSIM15.10.257_lnx86/tools.lnx86/bin/spectre'
+#    setenv PATH "/software/cadence/MMSIM15.10.257_lnx86/tools.lnx86/bin:$PATH"
+#    setenv LM_LICENSE_FILE 5280@192.168.5.17:$LM_LICENSE_FILE
+#endif
+##
+#############Virtuoso Setting#############
+#if ($USE_ICFB == 1) then
+#    echo "       ICFB settings are ON"
+#    alias icfb '/software/cadence/IC06.17.712/tools.lnx86/dfII/bin/icfb'
+#    setenv PATH "/software/cadence/IC06.17.712/tools.lnx86/bin:$PATH"
+#    setenv PATH "/software/cadence/IC06.17.712/tools.lnx86/dfII/bin:$PATH"
+#    setenv OA_HOME  /software/cadence/IC06.17.712/oa_v22.50.068/
+#    setenv LM_LICENSE_FILE  "5280@moonshine:$LM_LICENSE_FILE"
+#    setenv MGC_CALIBRE_LAYOUT_SERVER neptune:5280
+#endif
+##
+##-----------------------------------------------
+## Setting Formality
+##-----------------------------------------------
+##alias fmsh   /home/SOFTWARE/fm05/linux/fm/bin/fm_shell
+##alias fmgui  home/SOFTWARE/fm/linux/fm/bin/formality
+#
+#setenv TCLLIBPATH /software/utils/tcl/lib
+#
+#if ($USE_SPYGLASS == 1) then
+#    echo "       SPYGLASS settings are ON"
+#    setenv LM_LICENSE_FILE 1700@robocop:5280@192.168.4.55:$LM_LICENSE_FILE
+#    set path= ( $path /software/spyglass/4.3.5-Beta-C2/RELEASE/SpyGlass-4.3.5/SPYGLASS_HOME/bin)
+#    setenv ATRENTA_LICENSE_FILE 1700@robocop
+#    setenv SPYGLASS_HOME /software/spyglass/4.3.5-Beta-C2/RELEASE/SpyGlass-4.3.5/SPYGLASS_HOME
+#endif
+#
+if ($USE_SIMVISION == 1) then
+    echo "[INFO] : Setting for simvision"
+    setenv SIMULATOR_PATH "$HSPICE_PATH"
+    setenv SIMULATOR "HSPICE"
+    setenv LM_LICENSE_FILE 5280@volcano:$LM_LICENSE_FILE
+    alias simvision '/software/cadence/INCISIVE_15.20.070/tools.lnx86/bin/64bit/simvision'
+endif 
+
+#setenv SOCKS5_SERVER 192.192.164.12
+#if ($SHELL == /usr/local/bin/tcsh) then
+#    set autolist
+#    set autoexpand
+#    set histdup = prev
+#    set ignoreeof = 2
+#    
+#    set fignore=(.o)
+#endif
+
+#svn st -uq | tr -s   | cut -d' ' -f3 | grep -v revision | grep -v Scripts | awk '{cmd = cp    ../MC2_GCC_UPGRADE/; system(cmd)}'

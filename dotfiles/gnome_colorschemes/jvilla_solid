@@ -1,0 +1,39 @@
+! Main colors
+*foreground:  rgb:b6/ca/b6
+*background:  rgb:2f/2f/2f
+*cursorColor: rgb:b6/ca/b6
+
+! Bold foreground
+*colorBD:     rgb:95/95/95
+
+! Black
+*color0:      rgb:55/55/55
+*color8:      rgb:55/55/55
+
+! Red
+*color1:      rgb:ef/29/29
+*color9:      rgb:ef/29/29
+
+! Green
+*color2:      rgb:8a/e2/34
+*color10:     rgb:8a/e2/34
+
+! Yellow
+*color3:      rgb:c4/a0/00
+*color11:     rgb:fc/e9/4f
+
+! Blue
+*color4:      rgb:72/9f/cf
+*color12:     rgb:72/9f/cf
+
+! Magenta
+*color5:      rgb:ad/7f/a8
+*color13:     rgb:ad/7f/a8
+
+! Cyan
+*color6:      rgb:34/e2/e2
+*color14:     rgb:34/e2/e2
+
+! White
+*color7:      rgb:ee/ee/ec
+*color15:     rgb:ee/ee/ec

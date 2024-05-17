@@ -1,0 +1,464 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Maintainer:
+"       Shashi Prakash Shah - @spshah
+"
+" Sections:
+"    -> General
+"    -> VIM user interface
+"    -> Colors and Fonts
+"    -> Files and backups
+"    -> Text, tab and indent related
+"    -> Moving around, tabs and buffers
+"    -> Status line
+"    -> Misc
+"    -> Helper functions
+"    -> Editing mappings
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set history=200                                                " Sets how many lines of history VIM has to remember
+filetype plugin on                                             " Enable filetype plugins
+filetype indent on
+
+set autoread                                                   " Set to auto read when a file is changed from the outside
+"au FocusGained,BufEnter * checktime
+"au CursorHold * checktime
+let mapleader = "\\"                                           " With a map leader it's possible to do extra key combinations
+set nocompatible
+                                        
+
+""set termwinsize=30x200                                       " Set terminal size for version >= 8             
+"set noshowmode                                                 " Display the current mode
+"set autowrite
+""set path+=**                                                   "search down into subfolders
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set scrolloff=3                                                " Show N lines below or above cursor when scrolling."
+set cursorline                                                 " Show N lines below or above cursor when scrolling."
+set wildmenu                                                   " Turn on the Wild menu
+set wildmode=list:longest:full
+set wildignore=*.o,*~,*.pyc,.git\*,.hg\*,.svn\*,*/.git/*,*/.hg/ " Ignore compiled files
+set ruler                                                      " Always show current position
+set cmdheight=1                                                " Height of the command bar
+set hidden                                                        " A buffer becomes hidden when it is abandoned
+set backspace=eol,start,indent                                 " Configure backspace so it acts as it should act
+set whichwrap+=<,>,h,l
+set ignorecase                                                 " Ignore case when searching
+set smartcase                                                  " When searching try to be smart about cases
+set hlsearch                                                   " Highlight search results
+set incsearch                                                  " Makes search act like search in modern browsers
+set magic                                                      " For regular expressions turn magic on
+set showmatch                                                  " Show matching brackets when text indicator is over them
+set mat=2                                                      " How many tenths of a second to blink when matching brackets                                        
+"set noerrorbells                                              " No annoying sound on errors
+"set novisualbell
+set foldcolumn=1                                               " Add a bit extra margin to the left
+set number                                                     " show number
+set foldmethod=syntax                                          " fold Settings
+"set foldmethod=manual
+set nofoldenable
+set nolazyredraw
+set splitright                                                 " Puts new vsplit windows to the right of the current
+set splitbelow                                                " Puts new split windows to the bottom of the current
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+syntax enable                                                  " Enable syntax highlighting
+syntax on
+set regexpengine=0                        " Set regular expression engine automatically
+set encoding=utf8                                              " Set utf8 as standard encoding and en_US as the standard language
+
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
+if (exists('+colorcolumn'))
+    set colorcolumn=80
+    highlight colorcolumn ctermbg=9
+endif
+
+
+set guifont=JetBrains\ Mono\ NL\ Light\ 14 
+set background=dark                                            " Set the background tone."
+try 
+    colorscheme molokai
+catch
+    try
+        colorscheme nord
+    catch 
+        try
+            colorscheme evening
+        catch
+            colorscheme desert
+        endtry
+    endtry
+endtry
+
+set t_Co=256
+
+
+"if has('nvim')
+    " Neovim only features
+"else
+    " Vim only features
+"endif
+if has('gui_running')                                          " Set extra options when running in GUI mode
+    set guifont=JetBrains\ Mono\ NL\ Light\ 10
+    let g:lightline = {
+      \ 'colorscheme': 'one',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'filename', 'modified', 'readonlyflag' ] ]
+      \ },
+      \ 'component': {
+      \   'filetype': '%Y',
+      \   'readonlyflag': '%R'
+      \ },
+      \ }                                                      "LightLine Status bar 
+ "   let g:lightline = {
+  "\ 'colorscheme': 'nord',
+  "\ }
+    set guioptions-=T                                          " Hide the toolbar."
+    set guioptions-=L                                          " Hide the the left-side scroll bar."
+    set guioptions-=r                                          " Hide the the right-side scroll bar."
+    set guioptions-=m                                          " Hide the the menu bar."
+    set guioptions-=b                                          " Hide the the bottom scroll bar."
+    set guitablabel=%M\ %t
+    set t_Co=256                                               "Set colour
+    nnoremap <F4> :if &guioptions=~#'mTr'<Bar>
+        \set guioptions-=mTr<Bar>
+        \else<Bar>
+        \set guioptions+=mTr<Bar>
+        \endif<CR>                                        
+                                                               " Map the F4 key to toggle the menu, toolbar, and scroll bar.
+                                                               " <Bar> is the pipe character."
+                                                               " <CR> is the enter key.
+endif
+
+
+                                                               "Highlight for diff 
+highlight DiffAdd     ctermbg=72   ctermfg=238  cterm=BOLD       guibg=#5bb899 guifg=#3c4855 gui=BOLD
+highlight DiffDelete  ctermbg=167  ctermfg=238  cterm=BOLD       guibg=#db6c6c guifg=#3c4855 gui=BOLd
+highlight DiffChange  ctermbg=238  ctermfg=178  cterm=UNDERLINE  guibg=#3c4855 guifg=#d5bc02 gui=UNDERLINE
+highlight DiffText    ctermbg=178  ctermfg=238  cterm=BOLD       guibg=#d5bc02 guifg=#3c4855 gui=BOLd
+
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files and backups
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set nobackup                                                   " Turn backup off, since most stuff is in SVN, git etc. anyway...
+set nowb
+set swapfile
+set dir=~/.cache/vim                                          " Set Directory to store swap files
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Text, tab and indent related
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set shiftwidth=4                                               " Set shift width to 4 spaces."
+set smarttab                                                   " Be smart when using tabs ;)
+set tabstop=4                                                  " Set tab width to 4 columns."
+set expandtab                                                  " Use space characters instead of tabs."
+set lbr                                                        " Linebreak on 500 characters
+"set tw=80
+set ai                                                         "Auto indent
+set si                                                         "Smart indent 
+set wrap                                                       "Wrap lines
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+try                                                            " Specify the behavior when switching between buffers
+  set switchbuf=useopen,usetab,newtab
+  set stal=2
+catch
+endtry
+
+set iskeyword-=.                    " '.' is an end of word designator
+set iskeyword-=#                    " '#' is an end of word designator
+set iskeyword-=-                    " '-' is an end of word designator
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Status line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set statusline=                                               " Clear status line when vimrc is reloaded.
+set statusline+=\ %F\ %M\ %Y\ %R                              " Status line left side.
+set statusline+=%=                                            " Use a divider to separate the left side from the right side.
+set statusline+=\ row:\ %l\ col:\ %c\ percent:\ %p%%          " Status line right side.
+set laststatus=2                                              " Always show the status line
+" Format the status line
+""set statusline= Line:\ %l\ \ Column:\ %c
+"
+"   %F      Display the full path of the current file.
+"   %M      Modified flag shows if file is unsaved.
+"   %Y      Type of file in the buffer.
+"   %R      Displays the read-only flag.
+"   %b      Shows the ASCII/Unicode character under cursor.
+"   0x%B    Shows the hexadecimal character under cursor.
+"   %l      Display the row number.
+"   %c      Display the column number.
+"   %p%%    Show the cursor percentage from the top of the file.
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Misc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
+:autocmd BufRead,BufNewFile *.pf source /software/Release/MC2/Latest/aux/sample/MDL.vim
+:amenu Syntax.Interra.MDL :source /software/Release/MC2/Latest/aux/sample/MDL.vim<Return>
+
+let g:tagbar_autofocus = 1                                    " Highlight the active tag
+let g:tagbar_autoshowtag = 1                                  " Make panel vertical and place on the right
+let g:tagbar_position = 'botright vertical'                   " Mapping to open and close the panel
+
+let g:netwr_banner = 0                                         " disable annoying banner
+let g:netwr_browse_split = 4                                   " open in prior window
+let g:netwr_altv = 1                                           " opwn splits to the right
+let g:netwr_liststyle = 3                                      " tree view
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+function! HiInterestingWord(n) 
+    normal! mz
+    normal! "zyiw
+    let mid = 77750 + a:n
+    try
+        call matchdelete(mid)
+    catch 'E803'
+        let pat = '\V\<' . escape(@z, '\') . '\>'
+        call matchadd("InterestingWord" . a:n, pat, 1, mid)
+        endtry
+    normal! `z
+endfunction 
+                                        
+
+"clear all highlighting
+function! ClearAllHi()
+    for i in range(1,6)
+        let mid = 77750 + i
+        silent! call matchdelete(mid)
+    endfor
+endfunction
+
+if has('clipboard')
+    if has('unnamedplus')  " When possible use + register for copy-paste
+        set clipboard=unnamed,unnamedplus
+    endif
+endif
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Cscope 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if has("cscope")
+
+    """"""""""""" Standard cscope/vim boilerplate
+
+    set cscopetag                                             " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
+
+    set csto=0                                                " check cscope for definition of a symbol before checking ctags: set to 1
+
+    if filereadable("cscope.out")
+        cs reset                                              " add any cscope database in current directory
+    endif
+
+    set cscopeverbose                                         "show msg when any other cscope db added
+
+
+    """"""""""""" cscope/vim key mappings
+    "
+    " The following maps all invoke one of the following cscope search types:
+    "
+    "   's'   symbol: find all references to the token under cursor
+    "   'g'   global: find global definition(s) of the token under cursor
+    "   'c'   calls:  find all calls to the function name under cursor
+    "   't'   text:   find all instances of the text under cursor
+    "   'e'   egrep:  egrep search for the word under cursor
+    "   'f'   file:   open the filename under cursor
+    "   'i'   includes: find files that include the filename under cursor
+    "   'd'   called: find functions that function under cursor calls
+    "
+    " Below are three sets of the maps: 
+    " one set that just jumps to the search result, 
+    " one that splits the existing vim window horizontally and
+    " one that does a vertical split instead (vim 6 only).
+    "
+    " I've used <leader> and <leader><space> as the starting keys for these maps
+
+    " Use CTRL-T to go back to where you were before the search.  
+
+    "NORMAL"
+    noremap <leader>s :cs find s <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader>g :cs find g <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader>c :cs find c <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader>t :cs find t <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader>e :cs find e <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader>f :cs find f <C-R>=expand("<cfile>")<CR><CR>    
+    noremap <leader>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    noremap <leader>d :cs find d <C-R>=expand("<cword>")<CR><CR>    
+
+    "HORIZONTAL SPLIT"
+    noremap <leader><e>s :bel :scs find s <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader><e>g :bel :scs find g <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader><e>c :bel :scs find c <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader><e>t :bel :scs find t <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader><e>e :bel :scs find e <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader><e>f :bel :scs find f <C-R>=expand("<cfile>")<CR><CR>    
+    noremap <leader><e>i :bel :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>    
+    noremap <leader><e>d :bel :scs find d <C-R>=expand("<cword>")<CR><CR>    
+
+    "VERTICAL SPLIT"
+    noremap <leader><q>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><q>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><q>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><q>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><q>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><q>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>    
+    noremap <leader><q>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>    
+    noremap <leader><q>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
+    
+
+endif
+
+if exists('$TMUX')
+" Fix Cursor in TMUX
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Editing mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+" Mapping to colourschemes
+map <leader>csp :colorscheme peachpuff<cr>                                        
+map <leader>csd :colorscheme desert<cr>
+map <leader>csm :colorscheme molokai<cr>
+map <leader>cse :colorscheme evening<cr>
+
+" Fast saving
+noremap <leader>w :w!<cr>                                                              
+"Fast Closing
+noremap <leader>q :q<cr>                                                                
+
+" Visual mode pressing * or # searches for the current selection
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>                                      
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+" Disable highlight when <leader><cr> is pressed
+nnoremap <silent> <leader><cr> :noh<cr>                                      
+
+nnoremap <c-j> <c-w>j                                      
+nnoremap <c-k> <c-w>k                                      
+nnoremap j gj
+nnoremap k gk
+
+" Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h, or CTRL+l."
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+cnoremap <leader>J mzJ`z
+
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT                                     
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>                                      
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+map <leader>tn :tabnew<cr>                                      
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+map <leader>tj :tabnext<cr>
+map <leader>tk :tabNext<cr>
+
+let g:lasttab = 1
+" Let 'tl' toggle between this and the last accessed tab
+noremap <leader>tt :exe "tabn ".g:lasttab<CR>        
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>                                        
+
+" Remap VIM 0 to first non-blank character
+map 0 ^                                      
+
+" Pressing ,ss will toggle and untoggle spell checking
+noremap <leader>ss :setlocal spell!<cr>                                      
+"next spelling error
+noremap <leader>sn ]s                                    
+"prev spelling error
+noremap <leader>sp [s                                     
+"add spelling to dictionary
+noremap <leader>sa zg                                        
+"show probable replacements
+noremap <leader>s? z=      
+
+"Clipboard yank and paste
+noremap <leader>c "+y
+noremap <leader>p "+p
+
+" Center the cursor vertically when moving to the next word during a search."
+nnoremap n nzzzv                                       
+nnoremap N Nzzzv
+
+
+" Highlights
+nnoremap <silent> <leader>0 :call ClearAllHi()<cr>                                        
+nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
+nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
+nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
+nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
+nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
+nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+
+map <leader>tb :TagbarToggle<CR>                              
+
+" Type jk to exit insert mode quickly."
+inoremap jk <Esc>
+"disabling esc to force learning jk mapping
+
+
+set ruler                   " Show the ruler
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+
+
+call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'itchyny/lightline.vim'
+Plug 'hdima/python-syntax' , {'for' : 'Python'} 
+Plug 'preservim/tagbar'
+Plug 'bfrg/vim-cpp-modern'
+Plug 'liuchengxu/vim-which-key'
+call plug#end()
+

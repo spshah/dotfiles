@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/home/shashi/mc2/GU/MC2_GCC_UPGRADE_1/Texas'
+let g:netrw_dirhist_2='/net/burrow/export/home/Extra_Area/shashi_extra/TS-SC/SC_Regression/Testcases/SDFFR_X2'
+let g:netrw_dirhist_3='/home/shashi/.tmux'
