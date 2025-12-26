@@ -21,21 +21,29 @@
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+set title
 set history=200                                                " Sets how many lines of history VIM has to remember
+filetype on
 filetype plugin on                                             " Enable filetype plugins
-filetype indent on
+filetype indent on                                             " Load an indent file for the detected file type.
+set et                                                         " Expand tab
 
 set autoread                                                   " Set to auto read when a file is changed from the outside
 "au FocusGained,BufEnter * checktime
 "au CursorHold * checktime
 let mapleader = "\\"                                           " With a map leader it's possible to do extra key combinations
 set nocompatible
-                                        
 
-""set termwinsize=30x200                                       " Set terminal size for version >= 8             
+
+""set termwinsize=30x200                                       " Set terminal size for version >= 8
 "set noshowmode                                                 " Display the current mode
-"set autowrite
-""set path+=**                                                   "search down into subfolders
+set autowrite
+set path+=**                                                   "search down into subfolders
+set updatetime=100
+set listchars   =tab:>\ ,trail:-,nbsp:+
+set errorformat ^=%D%*[^:]:\ Entering\ directory\ '%f',%X%*[^:]:\ Leaving\ directory\ '%f'
+set viewoptions =folds,cursor
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -56,13 +64,12 @@ set hlsearch                                                   " Highlight searc
 set incsearch                                                  " Makes search act like search in modern browsers
 set magic                                                      " For regular expressions turn magic on
 set showmatch                                                  " Show matching brackets when text indicator is over them
-set mat=2                                                      " How many tenths of a second to blink when matching brackets                                        
+set mat=2                                                      " How many tenths of a second to blink when matching brackets
 "set noerrorbells                                              " No annoying sound on errors
 "set novisualbell
 set foldcolumn=1                                               " Add a bit extra margin to the left
 set number                                                     " show number
 set foldmethod=syntax                                          " fold Settings
-"set foldmethod=manual
 set nofoldenable
 set nolazyredraw
 set splitright                                                 " Puts new vsplit windows to the right of the current
@@ -84,15 +91,20 @@ if (exists('+colorcolumn'))
     highlight colorcolumn ctermbg=9
 endif
 
+map fu :set guifont=Monospace\ Regular\ 14
+map fd :set guifont=Monospace\ Regular\ 10
 
-set guifont=JetBrains\ Mono\ NL\ Light\ 14 
+
+"set guifont=Hack\ Nerd\ Font\ 8,Hack\ Regular\ 9,JetBrains\ Mono\ NL\ Light\ 14,MonoSpace\ 10
+set guifont=Hack\ Nerd\ Font\ 14,Hack\ Regular\ 14,JetBrains\ Mono\ NL\ Light\ 14,MonoSpace\ 14
+
 set background=dark                                            " Set the background tone."
-try 
+try
     colorscheme molokai
 catch
     try
         colorscheme nord
-    catch 
+    catch
         try
             colorscheme evening
         catch
@@ -110,7 +122,7 @@ set t_Co=256
     " Vim only features
 "endif
 if has('gui_running')                                          " Set extra options when running in GUI mode
-    set guifont=JetBrains\ Mono\ NL\ Light\ 10
+    set guifont=Hack\ Nerd\ Font\ 9,Hack\ Regular\ 9,JetBrains\ Mono\ NL\ Light\ 14,MonoSpace\ 10
     let g:lightline = {
       \ 'colorscheme': 'one',
       \ 'active': {
@@ -121,7 +133,7 @@ if has('gui_running')                                          " Set extra optio
       \   'filetype': '%Y',
       \   'readonlyflag': '%R'
       \ },
-      \ }                                                      "LightLine Status bar 
+      \ }                                                      "LightLine Status bar
  "   let g:lightline = {
   "\ 'colorscheme': 'nord',
   "\ }
@@ -136,21 +148,32 @@ if has('gui_running')                                          " Set extra optio
         \set guioptions-=mTr<Bar>
         \else<Bar>
         \set guioptions+=mTr<Bar>
-        \endif<CR>                                        
+        \endif<CR>
                                                                " Map the F4 key to toggle the menu, toolbar, and scroll bar.
                                                                " <Bar> is the pipe character."
                                                                " <CR> is the enter key.
 endif
 
 
-                                                               "Highlight for diff 
+                                                               "Highlight for diff
 highlight DiffAdd     ctermbg=72   ctermfg=238  cterm=BOLD       guibg=#5bb899 guifg=#3c4855 gui=BOLD
 highlight DiffDelete  ctermbg=167  ctermfg=238  cterm=BOLD       guibg=#db6c6c guifg=#3c4855 gui=BOLd
 highlight DiffChange  ctermbg=238  ctermfg=178  cterm=UNDERLINE  guibg=#3c4855 guifg=#d5bc02 gui=UNDERLINE
 highlight DiffText    ctermbg=178  ctermfg=238  cterm=BOLD       guibg=#d5bc02 guifg=#3c4855 gui=BOLd
 
+highlight statement ctermfg=darkgreen
+highlight conditional ctermfg=blue
+highlight repeat ctermfg=blue
+highlight search term=reverse cterm=bold ctermbg=blue ctermfg=white gui=bold guibg=Red
+highlight vimError term=reverse cterm=bold ctermbg=9 gui=bold guibg=Red
+highlight todo  term=reverse cterm=bold ctermbg=9 gui=bold guibg=Red
+highlight Error NONE
+highlight Error term=reverse cterm=bold ctermbg=9 gui=bold guibg=Red
+highlight ErrorMsg NONE
+highlight ErrorMsg term=reverse cterm=bold ctermbg=9 gui=bold guibg=Red
+highlight Constant term=standout ctermfg=yellow gui=bold guifg=yellow
 
-
+highlight boldtext cterm=bold
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files and backups
@@ -159,7 +182,7 @@ highlight DiffText    ctermbg=178  ctermfg=238  cterm=BOLD       guibg=#d5bc02 g
 set nobackup                                                   " Turn backup off, since most stuff is in SVN, git etc. anyway...
 set nowb
 set swapfile
-set dir=~/.cache/vim                                          " Set Directory to store swap files
+set dir=$HOME/.cache/vim                                          " Set Directory to store swap files
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -172,7 +195,7 @@ set expandtab                                                  " Use space chara
 set lbr                                                        " Linebreak on 500 characters
 "set tw=80
 set ai                                                         "Auto indent
-set si                                                         "Smart indent 
+set si                                                         "Smart indent
 set wrap                                                       "Wrap lines
 
 
@@ -216,15 +239,92 @@ set laststatus=2                                              " Always show the 
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" YCM
+let g:ycm_server_python_interpreter = '/depot/Python/Python-3.8.0/bin/python3'
+let g:ycm_disable_for_files_larger_than_kb = 20000
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+let g:ycm_clangd_binary_path = expand("$LLVM_PATH/bin/clangd")
+let g:ycm_min_num_of_chars_for_completion = 10
+
+nnoremap <leader>yk :YcmDiags<cr>
+
+nnoremap <leader>yj :YcmCompleter GoTo<CR>
+
+nnoremap <leader>yx :YcmCompleter FixIt<cr>:cclose<cr>
+
+nnoremap <silent> <leader>yq :lclose<cr>:cclose<cr>
+
+"Clang-format
+let g:clang_format =
+      \ (has('python3') ? ":py3f " : ":pyf ")
+      \ . expand("$LLVM_PATH/share/clang/clang-format.py")
+      \ . "\n"
+
+au FileType c,cpp noremap <silent><expr> <leader>cf g:clang_format
+
+au FileType c,cpp imap <silent> <leader>cf <c-o><leader>cf
+
+
+"
+"" Only run linters named in ale_linters settings.
+"let g:ale_linters_explicit = 1
+"highlight ALEWarning ctermbg=DarkMagenta
+"let g:ale_linters = {
+"\   'javascript': ['eslint'],
+"\   'cpp' : ['gcc'],
+"\   'python' : ['pylint'],
+"\}
+"
+"
+"function! LinterStatus() abort
+"    let l:counts = ale#statusline#Count(bufnr(''))
+"
+"    let l:all_errors = l:counts.error + l:counts.style_error
+"    let l:all_non_errors = l:counts.total - l:all_errors
+"
+"    return l:counts.total == 0 ? 'OK' : printf(
+"    \   '%dW %dE',
+"    \   all_non_errors,
+"    \   all_errors
+"    \)
+"endfunction
+
+
+function! UpdateFontSize(size)
+    if has("gui_running")
+        let &guifont = "Monospace:h" . a:size
+    elseif exists('$TERM')
+        " For terminal Vim, you might need to use terminal-specific commands
+        " This example assumes you are using a terminal that supports font size changes
+        " Adjust the command according to your terminal emulator
+        let &guifont = "Monospace:h" . a:size
+    endif
+endfunction
+
+" Keybindings to update font size
+nnoremap <F5> :call UpdateFontSize(14)<CR>
+nnoremap <F6> :call UpdateFontSize(10)<CR>
+
+"''hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
+"''hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
+"''hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
+"''hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
+"''hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
+"''hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+"''hi def InterestingWord7 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+"''hi def InterestingWord8 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+"''hi def InterestingWord9 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
+
 hi def InterestingWord1 guifg=#000000 ctermfg=16 guibg=#ffa724 ctermbg=214
 hi def InterestingWord2 guifg=#000000 ctermfg=16 guibg=#aeee00 ctermbg=154
 hi def InterestingWord3 guifg=#000000 ctermfg=16 guibg=#8cffba ctermbg=121
 hi def InterestingWord4 guifg=#000000 ctermfg=16 guibg=#b88853 ctermbg=137
 hi def InterestingWord5 guifg=#000000 ctermfg=16 guibg=#ff9eb8 ctermbg=211
-hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=195
-
-:autocmd BufRead,BufNewFile *.pf source /software/Release/MC2/Latest/aux/sample/MDL.vim
-:amenu Syntax.Interra.MDL :source /software/Release/MC2/Latest/aux/sample/MDL.vim<Return>
+hi def InterestingWord6 guifg=#000000 ctermfg=16 guibg=#ff2c4b ctermbg=196
+hi def InterestingWord7 guifg=#000000 ctermfg=16 guibg=#00d2ff ctermbg=45
+hi def InterestingWord8 guifg=#000000 ctermfg=16 guibg=#ff00ff ctermbg=201
+hi def InterestingWord9 guifg=#000000 ctermfg=16 guibg=#00ff7f ctermbg=47
 
 let g:tagbar_autofocus = 1                                    " Highlight the active tag
 let g:tagbar_autoshowtag = 1                                  " Make panel vertical and place on the right
@@ -239,7 +339,7 @@ let g:netwr_liststyle = 3                                      " tree view
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-function! HiInterestingWord(n) 
+function! HiInterestingWord(n)
     normal! mz
     normal! "zyiw
     let mid = 77750 + a:n
@@ -250,16 +350,17 @@ function! HiInterestingWord(n)
         call matchadd("InterestingWord" . a:n, pat, 1, mid)
         endtry
     normal! `z
-endfunction 
-                                        
+endfunction
+
 
 "clear all highlighting
 function! ClearAllHi()
-    for i in range(1,6)
+    for i in range(1,9)
         let mid = 77750 + i
         silent! call matchdelete(mid)
     endfor
 endfunction
+
 
 if has('clipboard')
     if has('unnamedplus')  " When possible use + register for copy-paste
@@ -268,8 +369,54 @@ if has('clipboard')
 endif
 
 
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+      
+function! Synmake()
+  " Get the VIEWROOT environment variable
+  let l:viewroot = $VIEWROOT
+
+  " Determine project type based on path
+  if l:viewroot =~ 'dgplt'
+    let l:build_cmd = 'fcmake exec'
+  elseif l:viewroot =~ 'spf'
+    let l:build_cmd = 'dcmake exec'
+  else
+    echo "Unknown project type. Path must contain 'dgplt' or 'spf'."
+    return
+  endif
+
+  let l:cmd = 'cd ' . l:viewroot . ' && nohup ' . l:build_cmd . ' > /tmp/build.log 2>&1 & echo $! > /tmp/build.pid'
+  " Run the command in the background
+  call system(l:cmd)
+
+  echo "Build started in background."
+endfunction
+
+function! CheckBuildStatus()
+  " Read PID from file
+  if filereadable('/tmp/build.pid')
+    let l:pid = readfile('/tmp/build.pid')[0]
+    let l:check_cmd = 'ps -p ' . l:pid . ' > /dev/null && echo running || echo finished'
+    let l:status = system(l:check_cmd)
+
+    if l:status =~ 'running'
+      echo "Build is still running..."
+    else
+      echo "Build has finished."
+    endif
+  else
+    echo "No build PID found. Has the build started?"
+  endif
+endfunction
+
+" Optional: Map to a key for convenience
+nnoremap <leader>b :call Synmake()<CR>
+nnoremap <leader>bs :call CheckBuildStatus()<CR>
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Cscope 
+" => Cscope
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if has("cscope")
@@ -278,7 +425,7 @@ if has("cscope")
 
     set cscopetag                                             " use both cscope and ctag for 'ctrl-]', ':ta', and 'vim -t'
 
-    set csto=0                                                " check cscope for definition of a symbol before checking ctags: set to 1
+    set csto=1                                                " check cscope for definition of a symbol before checking ctags: set to 1
 
     if filereadable("cscope.out")
         cs reset                                              " add any cscope database in current directory
@@ -300,45 +447,45 @@ if has("cscope")
     "   'i'   includes: find files that include the filename under cursor
     "   'd'   called: find functions that function under cursor calls
     "
-    " Below are three sets of the maps: 
-    " one set that just jumps to the search result, 
+    " Below are three sets of the maps:
+    " one set that just jumps to the search result,
     " one that splits the existing vim window horizontally and
     " one that does a vertical split instead (vim 6 only).
     "
     " I've used <leader> and <leader><space> as the starting keys for these maps
 
-    " Use CTRL-T to go back to where you were before the search.  
+    " Use CTRL-T to go back to where you were before the search.
 
     "NORMAL"
-    noremap <leader>s :cs find s <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader>g :cs find g <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader>c :cs find c <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader>t :cs find t <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader>e :cs find e <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader>f :cs find f <C-R>=expand("<cfile>")<CR><CR>    
+    noremap <leader>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
     noremap <leader>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-    noremap <leader>d :cs find d <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader>d :cs find d <C-R>=expand("<cword>")<CR><CR>
 
     "HORIZONTAL SPLIT"
-    noremap <leader><e>s :bel :scs find s <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader><e>g :bel :scs find g <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader><e>c :bel :scs find c <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader><e>t :bel :scs find t <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader><e>e :bel :scs find e <C-R>=expand("<cword>")<CR><CR>    
-    noremap <leader><e>f :bel :scs find f <C-R>=expand("<cfile>")<CR><CR>    
-    noremap <leader><e>i :bel :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>    
-    noremap <leader><e>d :bel :scs find d <C-R>=expand("<cword>")<CR><CR>    
+    noremap <leader><e>s :bel :scs find s <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><e>g :bel :scs find g <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><e>c :bel :scs find c <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><e>t :bel :scs find t <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><e>e :bel :scs find e <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><e>f :bel :scs find f <C-R>=expand("<cfile>")<CR><CR>
+    noremap <leader><e>i :bel :scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    noremap <leader><e>d :bel :scs find d <C-R>=expand("<cword>")<CR><CR>
 
     "VERTICAL SPLIT"
-    noremap <leader><q>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
-    noremap <leader><q>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
-    noremap <leader><q>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
-    noremap <leader><q>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
-    noremap <leader><q>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
-    noremap <leader><q>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>    
-    noremap <leader><q>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>    
-    noremap <leader><q>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
-    
+    noremap <leader><space>s :vert scs find s <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><space>g :vert scs find g <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><space>c :vert scs find c <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><space>t :vert scs find t <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><space>e :vert scs find e <C-R>=expand("<cword>")<CR><CR>
+    noremap <leader><space>f :vert scs find f <C-R>=expand("<cfile>")<CR><CR>
+    noremap <leader><space>i :vert scs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+    noremap <leader><space>d :vert scs find d <C-R>=expand("<cword>")<CR><CR>
+
 
 endif
 
@@ -350,31 +497,38 @@ else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
+:autocmd InsertEnter * set cul
+:autocmd InsertLeave * set nocul
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" map CTRL-E to end-of-line (insert mode).
+imap <C-e> <esc>$i<right>
+
+" map CTRL-A to beginning-of-line (insert mode).
+imap <C-a> <esc>0i
 
 " Mapping to colourschemes
-map <leader>csp :colorscheme peachpuff<cr>                                        
+map <leader>csp :colorscheme peachpuff<cr>
 map <leader>csd :colorscheme desert<cr>
 map <leader>csm :colorscheme molokai<cr>
 map <leader>cse :colorscheme evening<cr>
 
 " Fast saving
-noremap <leader>w :w!<cr>                                                              
+noremap <leader>w :w!<cr>
 "Fast Closing
-noremap <leader>q :q<cr>                                                                
+noremap <leader>q :q<cr>
 
 " Visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>                                      
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
 " Disable highlight when <leader><cr> is pressed
-nnoremap <silent> <leader><cr> :noh<cr>                                      
+nnoremap <silent> <leader><cr> :noh<cr>
 
-nnoremap <c-j> <c-w>j                                      
-nnoremap <c-k> <c-w>k                                      
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
 nnoremap j gj
 nnoremap k gk
 
@@ -384,16 +538,17 @@ nnoremap <c-l> <c-w>l
 nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
 cnoremap <leader>J mzJ`z
+map <leader>bd :Bclose<cr>:tabclose<cr>gT 
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT                                     
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
 " Close all the buffers
-map <leader>ba :bufdo bd<cr>                                      
+map <leader>ba :bufdo bd<cr>
 
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 
-map <leader>tn :tabnew<cr>                                      
+map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
@@ -402,48 +557,72 @@ map <leader>tk :tabNext<cr>
 
 let g:lasttab = 1
 " Let 'tl' toggle between this and the last accessed tab
-noremap <leader>tt :exe "tabn ".g:lasttab<CR>        
+noremap <leader>tt :exe "tabn ".g:lasttab<CR>
 
 " Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>                                        
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Remap VIM 0 to first non-blank character
-map 0 ^                                      
+map 0 ^
 
 " Pressing ,ss will toggle and untoggle spell checking
-noremap <leader>ss :setlocal spell!<cr>                                      
+noremap <leader>ss :setlocal spell!<cr>
 "next spelling error
-noremap <leader>sn ]s                                    
+noremap <leader>sn ]s
 "prev spelling error
-noremap <leader>sp [s                                     
+noremap <leader>sp [s
 "add spelling to dictionary
-noremap <leader>sa zg                                        
+noremap <leader>sa zg
 "show probable replacements
-noremap <leader>s? z=      
+noremap <leader>s? z=
 
 "Clipboard yank and paste
 noremap <leader>c "+y
 noremap <leader>p "+p
 
 " Center the cursor vertically when moving to the next word during a search."
-nnoremap n nzzzv                                       
+nnoremap n nzzzv
 nnoremap N Nzzzv
 
 
 " Highlights
-nnoremap <silent> <leader>0 :call ClearAllHi()<cr>                                        
+nnoremap <silent> <leader>0 :call ClearAllHi()<cr>
 nnoremap <silent> <leader>1 :call HiInterestingWord(1)<cr>
 nnoremap <silent> <leader>2 :call HiInterestingWord(2)<cr>
 nnoremap <silent> <leader>3 :call HiInterestingWord(3)<cr>
 nnoremap <silent> <leader>4 :call HiInterestingWord(4)<cr>
 nnoremap <silent> <leader>5 :call HiInterestingWord(5)<cr>
 nnoremap <silent> <leader>6 :call HiInterestingWord(6)<cr>
+nnoremap <silent> <leader>7 :call HiInterestingWord(7)<cr>
+nnoremap <silent> <leader>8 :call HiInterestingWord(8)<cr>
+nnoremap <silent> <leader>9 :call HiInterestingWord(9)<cr>
 
-map <leader>tb :TagbarToggle<CR>                              
+map <leader>tb :TagbarToggle<CR>
 
 " Type jk to exit insert mode quickly."
 inoremap jk <Esc>
 "disabling esc to force learning jk mapping
+"
+"
+" vim-cpp-set-modern
+" Disable function highlighting (affects both C and C++ files)
+"let g:cpp_function_highlight = 0
+
+" Enable highlighting of C++11 attributes
+let g:cpp_attributes_highlight = 1
+
+" Highlight struct/class member variables (affects both C and C++ files)
+let g:cpp_member_highlight = 1
+
+" Disable highlighting of type names in class, struct, union, enum, using, and
+" concept declarations (affects both C and C++ files)
+let g:cpp_type_name_highlight = 0
+
+" Highlight operators (affects both C and C++ files)
+let g:cpp_operator_highlight = 1
+
+" Put all standard C and C++ keywords under Vim's highlight group 'Statement'
+" (affects both C and C++ files)
 
 
 set ruler                   " Show the ruler
@@ -451,14 +630,31 @@ set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%) " A ruler on steroids
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
+map pf Ostd::cout << "Shashi: " << __FILE__ << ":" << __LINE__ << ":" << __func__ << std::endl;
+
 
 call plug#begin('~/.vim/plugged')
+if !exists('minimal')
+    let minimal = 'false'
+endif
+if minimal != 'true'
+  Plug 'ycm-core/YouCompleteMe'
+endif
 Plug 'tpope/vim-sensible'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'itchyny/lightline.vim'
-Plug 'hdima/python-syntax' , {'for' : 'Python'} 
+Plug 'hdima/python-syntax' , {'for' : 'Python'}
 Plug 'preservim/tagbar'
 Plug 'bfrg/vim-cpp-modern'
 Plug 'liuchengxu/vim-which-key'
+"Plug 'nfvs/vim-perforce'
+Plug 'junegunn/fzf.vim'
+"Plug 'vim-python/python-syntax'
+"Plug 'vhda/verilog_systemverilog.vim'
+"Plug 'ycm-core/YouCompleteMe', {'branch' : 'legacy-vim-8.1'}
+"Plug 'github/copilot.vim'
+"Plug 'altercation/vim-colors-solarized'
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'dstein64/vim-startuptime'
 call plug#end()
 
