@@ -1,0 +1,57 @@
+name: Local Config
+version: 1.0.0
+schema: v1
+models:
+  - title: 'Ollama – Django + React (7B)'
+    provider: ollama
+    model: qwen2.5-coder-django-react
+    apiBase: http://localhost:11434
+    contextLength: 8192
+
+# Ensure the UI defaults to your custom model
+selectedModel: 'Ollama – Django + React (7B)'
+defaultModel: 'Ollama – Django + React (7B)'
+
+# ----------------------------
+# Disable tab autocomplete
+# ----------------------------
+tabAutocompleteModel:
+  title: 'None'
+  provider: none
+tabAutocompleteOptions:
+  enabled: false
+
+# ----------------------------
+# Slash commands (on-demand)
+# ----------------------------
+slashCommands:
+  - name: refactor
+    description: Refactor selection with unified diffs
+    prompt: |
+      {{{ input }}}
+      Refactor the selected code following existing project patterns.
+      Return a unified diff only.
+
+  - name: explain
+    description: Explain the current selection
+    prompt: |
+      {{{ input }}}
+      Explain what the selected code does and why it is written this way
+      in the context of a Django + React monolith.
+
+# ----------------------------
+# Context providers (explicit, safe)
+# ----------------------------
+contextProviders:
+  - name: code
+    params: {}
+
+  - name: diff
+    params: {}
+
+# ----------------------------
+# UI behavior
+# ----------------------------
+ui:
+  codeBlockRenderMode: unifiedDiff
+  displayRefreshPatterns: true

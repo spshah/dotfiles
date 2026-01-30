@@ -52,7 +52,9 @@ ensure_source_line "$HOME/.tmux.conf" "$HOME/.tmux.conf.${USER_NAME}"
 # csh
 # -----------------------------
 copy_user_config "$DOTFILES/csh/cshrc" ".cshrc"
+copy_user_config "$DOTFILES/csh/aliases.csh" ".aliases.csh"
 ensure_source_line "$HOME/.cshrc" "$HOME/.cshrc.${USER_NAME}"
+ensure_source_line "$HOME/.cshrc" "$HOME/.aliases.csh"
 
 # -----------------------------
 # Neovim (directory-based)
